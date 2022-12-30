@@ -8,13 +8,23 @@ import Button from "react-bootstrap/Button";
 import { useState, useEffect } from "react";
 import Modal from "react-bootstrap/Modal";
 import Form from "react-bootstrap/Form";
+import Toast from "react-bootstrap/Toast";
+import { Router, useRouter } from "next/router";
 
 import Cookies from "js-cookie";
+import { ToastContainer } from "react-bootstrap";
+import { redirect } from "next/dist/server/api-utils";
 
 const NavbarMain = () => {
+  const router = useRouter;
   const getAccessToken = () => Cookies.get("access_token");
 
+  const [notification, setNotification] = useState();
   const [authenticated, setAuthenticated] = useState(false);
+  const [showAlert, setShowAlert] = useState(false);
+  const [alertContent, setAlertContent] = useState("");
+
+  const toggleShowAlert = () => setShowAlert(!showAlert);
 
   const isAuthenticated = () => setAuthenticated(!!getAccessToken());
 
@@ -29,36 +39,47 @@ const NavbarMain = () => {
   const handleOpenConfirm = () => setShow({ confirm: true });
   const handleCloseConfirm = () => setShow({ confirm: false });
 
-  async function doLogin({ email, password }) {
-    const response = await fetch("https://gosky.up.railway.app/api/auth/login", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        email: email,
-        password: password,
-      }),
-    });
+  const delay = (ms) => new Promise((res) => setTimeout(res, ms));
 
-    const data = await response.json();
-    console.log(data);
-    const dataToken = data.data.accessToken;
-    return dataToken;
+  async function doLogin({ email, password }) {
+    let data = null;
+
+    try {
+      const response = await fetch("https://gosky.up.railway.app/api/auth/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          email: email,
+          password: password,
+        }),
+      });
+      data = await response.json();
+      const dataToken = data.data.accessToken;
+      return dataToken;
+    } catch (err) {
+      const dataToken = false;
+      return dataToken;
+    }
   }
 
   async function doOtp({ email }) {
-    const response = await fetch(`https://gosky.up.railway.app/api/auth/otp?email=${email}`, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
-
-    const data = await response.json();
-    console.log(data);
-    const dataToken = data.data.otpToken;
-    return dataToken;
+    let data = null;
+    try {
+      const response = await fetch(`https://gosky.up.railway.app/api/auth/otp?email=${email}`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+      data = await response.json();
+      const dataToken = data.data.otpToken;
+      return dataToken;
+    } catch (err) {
+      const dataToken = false;
+      return dataToken;
+    }
   }
 
   async function doOtpConfirm({ name, password, otpCode, otpToken }) {
@@ -75,9 +96,11 @@ const NavbarMain = () => {
       }),
     });
 
-    const data = await response.json();
-    console.log(data);
-    const dataToken = data.data.accessToken;
+    console.log(name, password, otpCode, otpToken);
+
+    console.log(response);
+
+    const dataToken = response.data.accessToken;
     return dataToken;
   }
 
@@ -96,54 +119,111 @@ const NavbarMain = () => {
   }
 
   useEffect(() => {
-    isAuthenticated();
-    getDataUser(Cookies.get("access_token"));
+    if (Cookies.get("access_token")) {
+      let unread = 0;
+      isAuthenticated();
+      getDataUser(Cookies.get("access_token"));
+
+      fetch("https://gosky.up.railway.app/api/notifications", {
+        method: "GET",
+        headers: {
+          accept: "application/json",
+          Authorization: `Bearer ${Cookies.get("access_token")}`,
+        },
+      })
+        .then((response) => response.json())
+        .then((data) =>
+          data.data.map((item) => {
+            if (item.isRead == false) {
+              unread++;
+            }
+          })
+        )
+        .then(() => setNotification(unread));
+    }
   }, []);
 
   function handleSubmitLogin(e) {
+    handleCloseLogin();
     setIsLoading(true);
     e.preventDefault();
     doLogin({ email, password })
-      .then((accessToken) => Cookies.set("access_token", accessToken))
-      .then(() => getDataUser(getAccessToken()))
+      .then((accessToken) => {
+        if (accessToken) {
+          setAlertContent("Berhasil Login !");
+          Cookies.set("access_token", accessToken);
+          getDataUser;
+        } else {
+          setIsLoading(false);
+          setAlertContent("GAGAL LOGIN, silahkan cek email dan password anda kembali!");
+          handleOpenLogin();
+          return Promise.reject();
+        }
+      })
+      .then(() => setIsLoading(false))
       .then(() => isAuthenticated())
-      .catch((err) => console.log(err.message))
-      .finally(() => setIsLoading(false));
-
-    console.log(authenticated);
-    console.log(isLoggedIn);
+      .finally(() => toggleShowAlert());
   }
 
   function handleSubmitOtp(e) {
+    handleCloseConfirm();
     setIsLoading(true);
     e.preventDefault();
     doOtpConfirm({ name, password, otpCode, otpToken })
-      .then((accessToken) => Cookies.set("access_token", accessToken))
+      .then((accessToken) => {
+        if (accessToken) {
+          setAlertContent("Konfirmasi Otp Berhasil !");
+          Cookies.set("access_token", accessToken);
+          isAuthenticated();
+          getDataUser(Cookies.get("access_token"));
+        } else {
+          setIsLoading(false);
+          setAlertContent("Konfirmasi OTP gagal, silahkan cek kode OTP anda kembali!");
+          handleOpenConfirm();
+          return Promise.reject();
+        }
+      })
       .then(() => getDataUser(getAccessToken()))
       .catch((err) => console.log(err.message))
+      .then(() => toggleShowAlert())
       .finally(() => setIsLoading(false));
   }
 
   function handleSubmitRegister(e) {
-    setIsLoading(true);
     e.preventDefault();
-    doOtp({ email })
-      .then((otpToken) => setOtpToken(otpToken))
-      .catch((err) => console.log(err.message))
-      .finally(() => setIsLoading(false));
+    handleCloseRegister();
+    setIsLoading(true);
 
-    handleOpenConfirm();
+    doOtp({ email })
+      .then((otpToken) => {
+        if (otpToken) {
+          setAlertContent("Otp Telah Dikirimkan, Silahkan cek email anda");
+          setOtpToken(otpToken);
+        } else {
+          setIsLoading(false);
+          setAlertContent("Gagal Mengirim OTp , Silahkan Register Kembali");
+          toggleShowAlert();
+          handleOpenRegister();
+          return Promise.reject();
+        }
+      })
+      .then(() => toggleShowAlert())
+      .then(() => setIsLoading(false))
+      .finally(() => handleOpenConfirm());
   }
 
-  function handleLogout(e) {
-    setIsLoading(true);
+  const handleLogout = async (e) => {
     e.preventDefault();
+    setIsLoading(true);
     Cookies.remove("access_token");
     isAuthenticated();
     setIsLoggedIn(false);
+
+    await delay(1000);
     setIsLoading(false);
-    console.log(authenticated);
-  }
+    setAlertContent("Berhasil Logout");
+    toggleShowAlert();
+  };
 
   async function getDataUser(token) {
     const response = await fetch("https://gosky.up.railway.app/api/auth/whoami", {
@@ -160,22 +240,31 @@ const NavbarMain = () => {
   }
 
   return (
-    <Navbar bg="light" expand="lg">
+    <Navbar bg="white" expand="lg">
       <Container>
-        <Navbar.Brand href="#home">
-          <Image src="/static/images/logo.svg" width={125} height={50} />
+        <Navbar.Brand href="/home">
+          <Image src="/static/images/logo.svg" width={125} height={50} alt="gosky logo" />
         </Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="ms-auto d-flex align-items-center ">
-            <Nav.Link href="#link" className="text-dark">
+            <a href={authenticated ? "/profile?page=history" : "#"} className="text-dark" onClick={() => (authenticated ? "" : handleOpenLogin())}>
               <i className="bi bi-file-earmark-text-fill me-2 primary-color"></i>
               <span>My Bookings</span>
-            </Nav.Link>
-            <Nav.Link href="#home" className="text-dark mx-2">
+            </a>
+            <a href={authenticated ? "/profile?page=notification" : "#"} className="text-dark mx-2" onClick={() => (authenticated ? "" : handleOpenLogin())}>
               {" "}
-              <i className="bi bi-bell-fill primary-color"></i> <span>Notification</span>
-            </Nav.Link>
+              <i className="bi bi-bell-fill primary-color position-relative me-2">
+                {notification != 0 ? (
+                  <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger " style={{ fontSize: "0.5rem" }}>
+                    {notification}
+                  </span>
+                ) : (
+                  ""
+                )}
+              </i>{" "}
+              <span>Notification</span>
+            </a>
 
             {authenticated == false ? (
               <>
@@ -194,16 +283,15 @@ const NavbarMain = () => {
             ) : (
               <NavDropdown
                 title={
-                  <span>
-                    <i class="bi bi-person-circle me-1 primary-color"></i>
+                  <>
+                    <i className="bi bi-person-circle me-1 primary-color"></i>
                     <p className="m-0">{userData.name}</p>
-                  </span>
+                  </>
                 }
                 id="basic-nav-dropdown"
               >
-                <NavDropdown.Item href="#action/3.1">My Profile</NavDropdown.Item>
-                <NavDropdown.Item href="#action/3.2">Another action</NavDropdown.Item>
-                <NavDropdown.Item href="#action/3.3">Something</NavDropdown.Item>
+                <NavDropdown.Item href="/profile">My Profile</NavDropdown.Item>
+                <NavDropdown.Item href="/profile?page=wishlist">Wishlist</NavDropdown.Item>
                 <NavDropdown.Divider />
                 <NavDropdown.Item href="#action/3.3">
                   <Button variant="primary" className="primary-background" style={{ width: "120px" }} onClick={handleLogout}>
@@ -223,19 +311,19 @@ const NavbarMain = () => {
           <Modal.Body>
             <Form.Group className="mb-3" controlId="formBasicEmail">
               <Form.Label>Email address</Form.Label>
-              <Form.Control type="email" placeholder="Enter email" onChange={(e) => setEmail(e.target.value)} value={email} />
+              <Form.Control type="email" placeholder="Enter email" onChange={(e) => setEmail(e.target.value)} value={email} required />
             </Form.Group>
 
             <Form.Group className="mb-3" controlId="formBasicPassword">
               <Form.Label>Password</Form.Label>
-              <Form.Control type="password" placeholder="Password" onChange={(e) => setPassword(e.target.value)} value={password} />
+              <Form.Control type="password" placeholder="Password" onChange={(e) => setPassword(e.target.value)} value={password} required />
             </Form.Group>
           </Modal.Body>
           <Modal.Footer>
             <Button variant="secondary" onClick={handleCloseLogin} style={{ width: "100px" }}>
               Cancel
             </Button>
-            <Button variant="primary" type="submit" onClick={handleCloseLogin} style={{ width: "100px" }}>
+            <Button variant="primary" type="submit" style={{ width: "100px" }}>
               Login
             </Button>
           </Modal.Footer>
@@ -250,25 +338,25 @@ const NavbarMain = () => {
           <Modal.Body>
             <Form.Group className="mb-3" controlId="formBasicEmail">
               <Form.Label>Name</Form.Label>
-              <Form.Control type="text" placeholder="Enter email" onChange={(e) => setName(e.target.value)} value={name} />
+              <Form.Control type="text" placeholder="Enter your name" onChange={(e) => setName(e.target.value)} value={name} required />
             </Form.Group>
 
             <Form.Group className="mb-3" controlId="formBasicEmail">
               <Form.Label>Email</Form.Label>
-              <Form.Control type="email" placeholder="Enter email" onChange={(e) => setEmail(e.target.value)} value={email} />
+              <Form.Control type="email" placeholder="Enter email" onChange={(e) => setEmail(e.target.value)} value={email} required />
             </Form.Group>
 
             <Form.Group className="mb-3" controlId="formBasicPassword">
               <Form.Label>Password</Form.Label>
-              <Form.Control type="password" placeholder="Password" onChange={(e) => setPassword(e.target.value)} value={password} />
+              <Form.Control type="password" placeholder="Password" onChange={(e) => setPassword(e.target.value)} value={password} required />
             </Form.Group>
           </Modal.Body>
           <Modal.Footer>
-            <Button variant="secondary" onClick={handleCloseLogin} style={{ width: "100px" }}>
+            <Button variant="secondary" onClick={handleCloseRegister} style={{ width: "100px" }}>
               Cancel
             </Button>
-            <Button variant="primary" type="submit" onClick={handleCloseLogin} style={{ width: "100px" }}>
-              Login
+            <Button variant="primary" type="submit" style={{ width: "100px" }}>
+              Register
             </Button>
           </Modal.Footer>
         </Form>
@@ -282,19 +370,39 @@ const NavbarMain = () => {
           <Modal.Body>
             <Form.Group className="mb-3" controlId="formBasicEmail">
               <Form.Label>Kode OTP</Form.Label>
-              <Form.Control type="text" placeholder="Enter otp code" onChange={(e) => setOtpCode(e.target.value)} value={otpCode} />
+              <Form.Control type="text" placeholder="Enter otp code" onChange={(e) => setOtpCode(e.target.value)} value={otpCode} required />
             </Form.Group>
           </Modal.Body>
           <Modal.Footer>
-            <Button variant="secondary" onClick={handleCloseConfirm} style={{ width: "100px" }}>
+            <Button variant="secondary" style={{ width: "100px" }}>
               Cancel
             </Button>
-            <Button variant="primary" type="submit" onClick={handleCloseConfirm} style={{ width: "100px" }}>
+            <Button variant="primary" type="submit" style={{ width: "100px" }}>
               Login
             </Button>
           </Modal.Footer>
         </Form>
       </Modal>
+
+      <Modal show={isLoading} centered className="loading-modal">
+        <Modal.Body>
+          <Form.Group className="d-flex flex-column h-100 justify-content-center align-items-center" controlId="formBasicEmail">
+            <div className="spinner-border text-light" role="status" style={{ height: "4rem", width: "4rem", borderWidth: "8px" }}></div>
+            <p className="text-white fw-semibold m-0 mt-3 fs-5">Loading...</p>
+          </Form.Group>
+        </Modal.Body>
+      </Modal>
+
+      <ToastContainer position={"top-center"} className="mt-5">
+        <Toast show={showAlert} onClose={toggleShowAlert} delay={3000} autohide>
+          <Toast.Header>
+            <img src="holder.js/20x20?text=%20" className="rounded me-2" alt="" />
+            <strong className="me-auto">GoSky</strong>
+            <small>11 mins ago</small>
+          </Toast.Header>
+          <Toast.Body>{alertContent}</Toast.Body>
+        </Toast>
+      </ToastContainer>
     </Navbar>
   );
 };

@@ -7,9 +7,13 @@ body {
   font-family: "Montserrat", sans-serif !important;
 }
 
+body {
+  background: linear-gradient(0deg, rgba(192, 222, 237, 0.2), rgba(192, 222, 237, 0.2)), #ffffff !important;
+}
+
 a {
-  color: inherit;
-  text-decoration: none;
+  color: black !important;
+  text-decoration: none !important;
 }
 
 * {
@@ -17,7 +21,7 @@ a {
 }
 
 .primary-color {
-  color: #00aced;
+  color: #00aced !important;
 }
 
 .primary-background {
@@ -27,7 +31,8 @@ a {
 }
 
 .headerSection .container-fluid {
-  background-image: url(../public/static/images/header-img.png);
+  background: linear-gradient(0deg, rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.5)), url(../public/static/images/header-img.png);
+
   background-position: center;
 }
 
@@ -60,4 +65,27 @@ nav .dropdown-menu[data-bs-popper] {
   display: flex;
   align-items: center;
   gap: 8px;
+}
+
+.loading-modal .modal-content {
+  background-color: #00aced;
+  border-radius: 1rem;
+  width: 10rem;
+  height: 10rem;
+  margin-inline: auto;
+}
+
+.home-content .card.featured-card {
+  height: 400px;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+.home-content .card-image {
+  height: 100px;
+  background-position: center;
+}
+
+input.mail-list::placeholder {
+  color: white;
 }
