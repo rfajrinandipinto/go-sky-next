@@ -10,6 +10,6 @@ export function AppWrapper({ children }) {
 
   return <AppContext.Provider value={contextValue}>{children}</AppContext.Provider>;
 }
-export function useAppContext() {
+export default function useAppContext() {
   return useContext(AppContext);
 }
