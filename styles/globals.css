@@ -31,7 +31,7 @@ a {
 }
 
 .headerSection .container-fluid {
-  background: linear-gradient(0deg, rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.5)), url(../public/static/images/header_img.png);
+  background: linear-gradient(0deg, rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.5)), url(/static/images/header_img.png);
 
   background-position: center;
 }
