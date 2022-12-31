@@ -171,9 +171,9 @@ const HomeContent = ({ data }) => {
                   );
                 })}
                 <div className="from-ticket d-flex align-items-center justify-content-end">
-                  <a href="/result?category=&from=JAKARTA&to=&departureTime=&returnTime=" onClick={() => setIsLoading(true)}>
+                  <Link href="/result?category=&from=JAKARTA&to=&departureTime=&returnTime=" onClick={() => setIsLoading(true)}>
                     <p className="card-text fw-semibold primary-color text-decoration-underline"> More</p>
-                  </a>
+                  </Link>
                 </div>
               </div>
             </div>
