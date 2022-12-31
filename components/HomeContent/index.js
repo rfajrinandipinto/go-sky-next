@@ -1,6 +1,7 @@
 import React from "react";
 import { useState } from "react";
 import { Modal } from "react-bootstrap";
+import Link from "next/link";
 
 const HomeContent = ({ data }) => {
   const [isLoading, setIsLoading] = useState(false);
@@ -17,11 +18,11 @@ const HomeContent = ({ data }) => {
           <div className="col-3">
             <div className="card shadow featured-card d-flex justify-content-end flex-column p-3" style={{ backgroundImage: "linear-gradient(rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.3)), url('/static/images/bukittinggi.png')" }}>
               <p className="text-white fw-semibold fs-5 mb-2">PADANG</p>
-              <a href="/result?category=&from=&to=PADANG&departureTime=&returnTime=" onClick={() => setIsLoading(true)}>
+              <Link href="/result?category=&from=&to=PADANG&departureTime=&returnTime=" onClick={() => setIsLoading(true)}>
                 <button type="button" className="btn border-light text-light" style={{ width: "150px" }}>
                   More
                 </button>
-              </a>
+              </Link>
             </div>
           </div>
           <div className="col-3">
@@ -30,11 +31,11 @@ const HomeContent = ({ data }) => {
               style={{ backgroundImage: "linear-gradient(rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.3)), url('/static/images/bali.png')", backgroundPosition: "top" }}
             >
               <p className="text-white fw-semibold fs-5 mb-2">BALI</p>
-              <a href="/result?category=&from=&to=DENPASAR&departureTime=&returnTime=" onClick={() => setIsLoading(true)}>
+              <Link href="/result?category=&from=&to=DENPASAR&departureTime=&returnTime=" onClick={() => setIsLoading(true)}>
                 <button type="button" className="btn border-light text-light" style={{ width: "150px" }}>
                   More
                 </button>
-              </a>
+              </Link>
             </div>
           </div>
           <div className="col-3">
@@ -43,11 +44,11 @@ const HomeContent = ({ data }) => {
               style={{ backgroundImage: "linear-gradient(rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.3)), url('/static/images/jakarta.png')", backgroundPosition: "top" }}
             >
               <p className="text-white fw-semibold fs-5 mb-2">JAKARTA</p>
-              <a href="/result?category=&from=&to=JAKARTA&departureTime=&returnTime=" onClick={() => setIsLoading(true)}>
+              <Link href="/result?category=&from=&to=JAKARTA&departureTime=&returnTime=" onClick={() => setIsLoading(true)}>
                 <button type="button" className="btn border-light text-light" style={{ width: "150px" }}>
                   More
                 </button>
-              </a>
+              </Link>
             </div>
           </div>
           <div className="col-3">
@@ -56,11 +57,11 @@ const HomeContent = ({ data }) => {
               style={{ backgroundImage: "linear-gradient(rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.3)), url('/static/images/jogjakarta.png')", backgroundPosition: "top" }}
             >
               <p className="text-white fw-semibold fs-5 mb-2">YOGYAKARTA</p>
-              <a href="/result?category=&from=&to=YOGYAKARTA&departureTime=&returnTime=" onClick={() => setIsLoading(true)}>
+              <Link href="/result?category=&from=&to=YOGYAKARTA&departureTime=&returnTime=" onClick={() => setIsLoading(true)}>
                 <button type="button" className="btn border-light text-light" style={{ width: "150px" }}>
                   More
                 </button>
-              </a>
+              </Link>
             </div>
           </div>
         </div>
