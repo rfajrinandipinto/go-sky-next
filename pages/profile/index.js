@@ -8,7 +8,7 @@ import { useRouter } from "next/router";
 
 import { ToastContainer, Toast, Modal, Form } from "react-bootstrap";
 
-const profile = ({ data, transactionData, wishlistData, notificationsData, pageContent }) => {
+const Profile = ({ data, transactionData, wishlistData, notificationsData, pageContent }) => {
   const router = useRouter();
 
   const [showResetEmail, setShowResetEmail] = useState(false);
@@ -600,4 +600,4 @@ export async function getServerSideProps(context) {
   };
 }
 
-export default profile;
+export default Profile;
