@@ -6,9 +6,7 @@ import { AppWrapper } from "./context/AppContext";
 function MyApp({ Component, pageProps }) {
   return (
     <div>
-      <AppWrapper>
-        <Component {...pageProps} />
-      </AppWrapper>
+      <Component {...pageProps} />
     </div>
   );
 }
