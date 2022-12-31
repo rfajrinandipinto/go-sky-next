@@ -7,8 +7,6 @@ import Link from "next/link";
 import Cookies from "js-cookie";
 import { ToastContainer, Toast } from "react-bootstrap";
 
-import { useAppContext } from "../../pages/context/AppContext";
-
 const TicketResult = (props) => {
   const router = useRouter();
 
@@ -18,8 +16,6 @@ const TicketResult = (props) => {
   const toggleShowAlert = () => setShowAlert(!showAlert);
 
   const [ticketData, setTicketData] = useState(props.data);
-
-  const [appState, setAppState] = useAppContext();
 
   const resultMinutes = (time) => {
     const d = new Date(time);
