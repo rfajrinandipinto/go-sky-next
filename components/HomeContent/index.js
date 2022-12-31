@@ -81,7 +81,7 @@ const HomeContent = ({ data }) => {
               <div className="card-body">
                 {ticketData.padang.map((ticket, key) => {
                   return (
-                    <a className="" key={key} href={"/tickets/" + ticket.id}>
+                    <Link className="" key={key} href={"/tickets/" + ticket.id}>
                       <div className="from-ticket mb-3 d-flex align-items-center justify-content-between">
                         <div className="">
                           <p className="card-text fw-semibold m-0">{ticket.to}</p>
@@ -95,14 +95,14 @@ const HomeContent = ({ data }) => {
                         </div>
                       </div>
                       <hr />
-                    </a>
+                    </Link>
                   );
                 })}
 
                 <div className="from-ticket d-flex align-items-center justify-content-end">
-                  <a href="/result?category=&from=PADANG&to=&departureTime=&returnTime=" onClick={() => setIsLoading(true)}>
+                  <Link href="/result?category=&from=PADANG&to=&departureTime=&returnTime=" onClick={() => setIsLoading(true)}>
                     <p className="card-text fw-semibold primary-color text-decoration-underline"> More</p>
-                  </a>
+                  </Link>
                 </div>
               </div>
             </div>
@@ -116,7 +116,7 @@ const HomeContent = ({ data }) => {
               <div className="card-body">
                 {ticketData.bali.map((ticket, key) => {
                   return (
-                    <a className="" key={key} href={"/tickets/" + ticket.id}>
+                    <Link className="" key={key} href={"/tickets/" + ticket.id}>
                       <div className="from-ticket mb-3 d-flex align-items-center justify-content-between">
                         <div className="">
                           <p className="card-text fw-semibold m-0">{ticket.to}</p>
@@ -130,13 +130,13 @@ const HomeContent = ({ data }) => {
                         </div>
                       </div>
                       <hr />
-                    </a>
+                    </Link>
                   );
                 })}
                 <div className="from-ticket d-flex align-items-center justify-content-end">
-                  <a href="/result?category=&from=DENPASAR&to=&departureTime=&returnTime=" onClick={() => setIsLoading(true)}>
+                  <Link href="/result?category=&from=DENPASAR&to=&departureTime=&returnTime=" onClick={() => setIsLoading(true)}>
                     <p className="card-text fw-semibold primary-color text-decoration-underline"> More</p>
-                  </a>
+                  </Link>
                 </div>
               </div>
             </div>
@@ -153,7 +153,7 @@ const HomeContent = ({ data }) => {
               <div className="card-body">
                 {ticketData.jakarta.map((ticket, key) => {
                   return (
-                    <a className="" key={key} href={"/tickets/" + ticket.id}>
+                    <Link className="" key={key} href={"/tickets/" + ticket.id}>
                       <div className="from-ticket mb-3 d-flex align-items-center justify-content-between">
                         <div className="">
                           <p className="card-text fw-semibold m-0">{ticket.to}</p>
@@ -167,7 +167,7 @@ const HomeContent = ({ data }) => {
                         </div>
                       </div>
                       <hr />
-                    </a>
+                    </Link>
                   );
                 })}
                 <div className="from-ticket d-flex align-items-center justify-content-end">
@@ -190,7 +190,7 @@ const HomeContent = ({ data }) => {
               <div className="card-body">
                 {ticketData.yogyakarta.map((ticket, key) => {
                   return (
-                    <a className="" key={key} href={"/tickets/" + ticket.id}>
+                    <Link className="" key={key} href={"/tickets/" + ticket.id}>
                       <div className="from-ticket mb-3 d-flex align-items-center justify-content-between">
                         <div className="">
                           <p className="card-text fw-semibold m-0">{ticket.to}</p>
@@ -204,13 +204,13 @@ const HomeContent = ({ data }) => {
                         </div>
                       </div>
                       <hr />
-                    </a>
+                    </Link>
                   );
                 })}
                 <div className="from-ticket d-flex align-items-center justify-content-end">
-                  <a href="/result?category=&from=YOGYAKARTA&to=&departureTime=&returnTime=" onClick={() => setIsLoading(true)}>
+                  <Link href="/result?category=&from=YOGYAKARTA&to=&departureTime=&returnTime=" onClick={() => setIsLoading(true)}>
                     <p className="card-text fw-semibold primary-color text-decoration-underline"> More</p>
-                  </a>
+                  </Link>
                 </div>
               </div>
             </div>
