@@ -10,7 +10,7 @@ import { ToastContainer, Toast, Modal } from "react-bootstrap";
 
 import Cookies from "js-cookie";
 
-const ticket = ({ data }) => {
+const Ticket = ({ data }) => {
   const [ticket, setTicket] = useState(data);
   const [isLoading, setIsLoading] = useState(false);
   const [showAlert, setShowAlert] = useState(false);
@@ -160,7 +160,7 @@ const ticket = ({ data }) => {
                     <hr></hr>
                     <Card.Text className="fw-semibold">Return : {ticket.returnTime.split("T")[0]}</Card.Text>
                     <div className="d-flex align-items-center">
-                      <Image src="/static/images/logo.svg" width={125} height={50} className="me-3" />
+                      <Image src="/static/images/logo.svg" width={125} height={50} className="me-3" alt="" />
                       <p className="m-0 fs-5 fw-semibold">GoSky Airline</p>
                     </div>
                     <div className="d-flex align-items-center">
@@ -221,4 +221,4 @@ export async function getServerSideProps(context) {
   };
 }
 
-export default ticket;
+export default Ticket;

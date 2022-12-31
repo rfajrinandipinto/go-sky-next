@@ -68,9 +68,9 @@ const TicketResult = (props) => {
                   </div>
                 </div>
 
-                <link href="/home" className="d-flex">
+                <a href="/home" className="d-flex">
                   <Button variant="primary primary-background px-4 ">Change search</Button>
-                </link>
+                </a>
               </Card.Body>
             </Card>
             {ticketData.map((ticket, key) => {
@@ -106,9 +106,9 @@ const TicketResult = (props) => {
                           <span className="fw-semibold">Rp {ticket.price.toLocaleString()}</span> / pax
                         </div>
                         <div className="d-flex mt-1">
-                          <Link href={"/tickets/" + ticket.id} className="w-75 me-2">
+                          <a href={"/tickets/" + ticket.id} className="w-75 me-2">
                             <Button variant="primary w-100  primary-background">Choose</Button>
-                          </Link>
+                          </a>
                           <Button
                             variant="primary w-25 btn-danger"
                             onClick={() => {
@@ -170,9 +170,9 @@ const TicketResult = (props) => {
                           <span className="fw-semibold">Rp {ticket.price.toLocaleString()}</span> / pax
                         </div>
                         <div className="d-flex mt-1">
-                          <Link href={"/tickets/" + ticket.id} className="w-75 me-2">
+                          <a href={"/tickets/" + ticket.id} className="w-75 me-2">
                             <Button variant="primary w-100  primary-background">Choose</Button>
-                          </Link>
+                          </a>
                           <Button
                             variant="primary w-25 btn-danger"
                             onClick={() => {
