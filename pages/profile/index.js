@@ -3,7 +3,7 @@ import Cookies from "js-cookie";
 import NavbarMain from "../../components/NavbarMain";
 import Button from "react-bootstrap/Button";
 import Card from "react-bootstrap/Card";
-import Footer from "../../components/footer";
+import Footer from "../../components/Footer";
 import { useState } from "react";
 import { useRouter } from "next/router";
 import Head from "next/head";
