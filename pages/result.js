@@ -3,13 +3,19 @@ import { SSRProvider } from "react-bootstrap";
 import NavbarMain from "../components/NavbarMain";
 import Headers from "../components/Headers";
 import TicketResult from "../components/TicketResult";
+import Footer from "../components/Footer";
 import { useRouter } from "next/router";
+import Head from "next/head";
 
 const result = ({ data }) => {
   return (
     <SSRProvider>
+      <Head>
+        <title>GoSky | Ticket</title>
+      </Head>
       <NavbarMain></NavbarMain>
       <TicketResult data={data}></TicketResult>
+      <Footer></Footer>
     </SSRProvider>
   );
 };

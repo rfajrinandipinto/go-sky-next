@@ -5,8 +5,10 @@ import Button from "react-bootstrap/Button";
 import Card from "react-bootstrap/Card";
 import Image from "next/image";
 import Form from "react-bootstrap/Form";
+import Footer from "../../components/Footer";
 import { useState, useEffect } from "react";
 import { ToastContainer, Toast, Modal } from "react-bootstrap";
+import Head from "next/head";
 
 import Cookies from "js-cookie";
 
@@ -78,6 +80,9 @@ const Ticket = ({ data }) => {
 
   return (
     <div className="TicketDetailSection">
+      <Head>
+        <title>GoSky | Ticket Booking</title>
+      </Head>
       <NavbarMain></NavbarMain>
       <div className="container">
         <h4 className="fw-semibold mt-4">Your Booking</h4>
@@ -188,6 +193,7 @@ const Ticket = ({ data }) => {
           </div>
         </div>
       </div>
+      <Footer></Footer>
 
       <Modal show={isLoading} centered className="loading-modal">
         <Modal.Body>

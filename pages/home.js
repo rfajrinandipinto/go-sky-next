@@ -6,10 +6,14 @@ import Headers from "../components/Headers";
 import TicketForm from "../components/TicketForm";
 import HomeContent from "../components/HomeContent";
 import Footer from "../components/Footer";
+import Head from "next/head";
 
 const home = (data) => {
   return (
     <SSRProvider>
+      <Head>
+        <title>GoSky | Home</title>
+      </Head>
       <NavbarMain></NavbarMain>
       <Headers></Headers>
       <TicketForm></TicketForm>

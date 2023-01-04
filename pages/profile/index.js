@@ -3,8 +3,10 @@ import Cookies from "js-cookie";
 import NavbarMain from "../../components/NavbarMain";
 import Button from "react-bootstrap/Button";
 import Card from "react-bootstrap/Card";
+import Footer from "../../components/footer";
 import { useState } from "react";
 import { useRouter } from "next/router";
+import Head from "next/head";
 
 import { ToastContainer, Toast, Modal, Form } from "react-bootstrap";
 
@@ -404,6 +406,9 @@ const Profile = ({ data, transactionData, wishlistData, notificationsData, pageC
 
   return (
     <div className="profileSection">
+      <Head>
+        <title>GoSky | Profile</title>
+      </Head>
       <NavbarMain></NavbarMain>
       <div className="container mt-5">
         <div className="row justify-content-center">
@@ -453,6 +458,7 @@ const Profile = ({ data, transactionData, wishlistData, notificationsData, pageC
           <div className="col-lg-8 col-12 mt-3">{renderMainContent(mainContent)}</div>
         </div>
       </div>
+      <Footer></Footer>
       <Modal show={isLoading} centered className="loading-modal">
         <Modal.Body>
           <Form.Group className="d-flex flex-column h-100 justify-content-center align-items-center" controlId="formBasicEmail">
