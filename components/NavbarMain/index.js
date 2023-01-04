@@ -28,7 +28,7 @@ const NavbarMain = () => {
 
   const isAuthenticated = () => setAuthenticated(!!getAccessToken());
 
-  const [show, setShow] = useState({ login: false, confirm: false, register: false });
+  const [show, setShow] = useState({ login: false, confirm: false, register: false, forgot: false, confirmReset: false });
 
   const handleOpenLogin = () => setShow({ login: true });
   const handleCloseLogin = () => setShow({ login: false });
@@ -38,6 +38,12 @@ const NavbarMain = () => {
 
   const handleOpenConfirm = () => setShow({ confirm: true });
   const handleCloseConfirm = () => setShow({ confirm: false });
+
+  const handleOpenConfirmReset = () => setShow({ confirmReset: true });
+  const handleCloseConfirmReset = () => setShow({ confirmReset: false });
+
+  const handleOpenForgot = () => setShow({ forgot: true });
+  const handleCloseForgot = () => setShow({ forgot: false });
 
   const delay = (ms) => new Promise((res) => setTimeout(res, ms));
 
@@ -96,11 +102,33 @@ const NavbarMain = () => {
       }),
     });
 
-    console.log(name, password, otpCode, otpToken);
+    let data = null;
 
     console.log(response);
 
-    const dataToken = response.data.accessToken;
+    data = await response.json();
+    const dataToken = data.data.accessToken;
+    return dataToken;
+  }
+
+  async function doOtpConfirmReset({ password, otpCode, otpToken }) {
+    const response = await fetch(`https://gosky.up.railway.app/api/auth/password`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        newPassword: password,
+        otp: otpCode,
+        otpToken: otpToken,
+      }),
+    });
+    let data = null;
+
+    console.log(response);
+
+    data = await response.json();
+    const dataToken = data.data.accessToken;
     return dataToken;
   }
 
@@ -170,10 +198,10 @@ const NavbarMain = () => {
     setIsLoading(true);
     e.preventDefault();
     doOtpConfirm({ name, password, otpCode, otpToken })
-      .then((accessToken) => {
-        if (accessToken) {
+      .then((access_token) => {
+        if (access_token) {
           setAlertContent("Konfirmasi Otp Berhasil !");
-          Cookies.set("access_token", accessToken);
+          Cookies.set("access_token", access_token);
           isAuthenticated();
           getDataUser(Cookies.get("access_token"));
         } else {
@@ -189,9 +217,57 @@ const NavbarMain = () => {
       .finally(() => setIsLoading(false));
   }
 
+  function handleSubmitOtpReset(e) {
+    handleCloseConfirmReset();
+    setIsLoading(true);
+    e.preventDefault();
+    doOtpConfirmReset({ password, otpCode, otpToken })
+      .then((accessToken) => {
+        if (accessToken) {
+          setAlertContent("Ubah Password Berhasil !");
+          Cookies.set("access_token", accessToken);
+          isAuthenticated();
+          getDataUser(Cookies.get("access_token"));
+        } else {
+          setIsLoading(false);
+          setAlertContent("Konfirmasi OTP gagal, silahkan cek kode OTP anda kembali!");
+          handleOpenConfirm();
+          return Promise.reject();
+        }
+      })
+      .then(() => setAlertContent("Ubah password berhasil, silahkan login"))
+      .catch((err) => console.log(err.message))
+      .then(() => toggleShowAlert())
+      .finally(() => setIsLoading(false));
+  }
+
   function handleSubmitRegister(e) {
     e.preventDefault();
     handleCloseRegister();
+    setIsLoading(true);
+
+    doOtp({ email })
+      .then((dataToken) => {
+        console.log(dataToken);
+        if (dataToken) {
+          setAlertContent("Otp Telah Dikirimkan, Silahkan cek email anda");
+          setOtpToken(dataToken);
+        } else {
+          setIsLoading(false);
+          setAlertContent("Gagal Mengirim OTp , Silahkan Register Kembali");
+          toggleShowAlert();
+          handleOpenRegister();
+          return Promise.reject();
+        }
+      })
+      .then(() => toggleShowAlert())
+      .then(() => setIsLoading(false))
+      .finally(() => handleOpenConfirm());
+  }
+
+  function handleSubmitForgot(e) {
+    e.preventDefault();
+    handleCloseForgot();
     setIsLoading(true);
 
     doOtp({ email })
@@ -207,10 +283,8 @@ const NavbarMain = () => {
           return Promise.reject();
         }
       })
-      .then(() => setAlertContent("Otp Berhasil ,silahkan login"))
-      .then(() => toggleShowAlert())
       .then(() => setIsLoading(false))
-      .finally(() => handleOpenConfirm());
+      .finally(() => handleOpenConfirmReset());
   }
 
   const handleLogout = async (e) => {
@@ -319,6 +393,12 @@ const NavbarMain = () => {
               <Form.Label>Password</Form.Label>
               <Form.Control type="password" placeholder="Password" onChange={(e) => setPassword(e.target.value)} value={password} required />
             </Form.Group>
+
+            <Form.Group className="w-100 d-flex justify-content-end" controlId="">
+              <a onClick={handleOpenForgot} className="text-primary">
+                Lupa Password ?
+              </a>
+            </Form.Group>
           </Modal.Body>
           <Modal.Footer>
             <Button variant="secondary" onClick={handleCloseLogin} style={{ width: "100px" }}>
@@ -363,14 +443,36 @@ const NavbarMain = () => {
         </Form>
       </Modal>
 
-      <Modal show={show.confirm} onHide={handleCloseConfirm} centered>
-        <Form onSubmit={handleSubmitOtp}>
+      <Modal show={show.forgot} onHide={handleCloseForgot} centered>
+        <Form onSubmit={handleSubmitForgot}>
           <Modal.Header closeButton>
-            <Modal.Title>Konfirmasi Email</Modal.Title>
+            <Modal.Title>Reset Password</Modal.Title>
           </Modal.Header>
           <Modal.Body>
             <Form.Group className="mb-3" controlId="formBasicEmail">
-              <Form.Label>Kode OTP</Form.Label>
+              <Form.Label>Email</Form.Label>
+              <Form.Control type="email" placeholder="Enter email" onChange={(e) => setEmail(e.target.value)} value={email} required />
+            </Form.Group>
+          </Modal.Body>
+          <Modal.Footer>
+            <Button variant="secondary" onClick={handleCloseForgot} style={{ width: "100px" }}>
+              Cancel
+            </Button>
+            <Button variant="primary" type="submit" style={{ width: "100px" }}>
+              Ok
+            </Button>
+          </Modal.Footer>
+        </Form>
+      </Modal>
+
+      <Modal show={show.confirm} onHide={handleCloseConfirm} centered>
+        <Form onSubmit={handleSubmitOtp}>
+          <Modal.Header closeButton>
+            <Modal.Title>Konfirmasi Otp</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
+            <Form.Group className="mb-3" controlId="formBasicEmail">
+              <Form.Label>Masukkan Otp</Form.Label>
               <Form.Control type="text" placeholder="Enter otp code" onChange={(e) => setOtpCode(e.target.value)} value={otpCode} required />
             </Form.Group>
           </Modal.Body>
@@ -380,6 +482,34 @@ const NavbarMain = () => {
             </Button>
             <Button variant="primary" type="submit" style={{ width: "100px" }}>
               Login
+            </Button>
+          </Modal.Footer>
+        </Form>
+      </Modal>
+
+      <Modal show={show.confirmReset} onHide={handleCloseConfirmReset} centered>
+        <Form onSubmit={handleSubmitOtpReset}>
+          <Modal.Header closeButton>
+            <Modal.Title>Konfirmasi Perubahan Password</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
+            <Form.Group className="" controlId="formBasicEmail">
+              <Form.Label>Masukkan Otp</Form.Label>
+              <Form.Control type="text" placeholder="Enter otp code" onChange={(e) => setOtpCode(e.target.value)} value={otpCode} required />
+            </Form.Group>
+          </Modal.Body>
+          <Modal.Body>
+            <Form.Group className="mb-3" controlId="formBasicEmail">
+              <Form.Label>Masukkan Password Baru</Form.Label>
+              <Form.Control type="text" placeholder="Enter otp code" onChange={(e) => setPassword(e.target.value)} value={password} required />
+            </Form.Group>
+          </Modal.Body>
+          <Modal.Footer>
+            <Button variant="secondary" style={{ width: "100px" }}>
+              Cancel
+            </Button>
+            <Button variant="primary" type="submit" style={{ width: "100px" }}>
+              Ok
             </Button>
           </Modal.Footer>
         </Form>

@@ -169,7 +169,7 @@ const TicketForm = () => {
                 </div>
                 <div className="col-sm-12 col-md-4 pb-sm-3 pb-md-0">
                   <Button variant="primary" type="submit" className="w-100 h-100 primary-background">
-                    Submit
+                    Search
                   </Button>
                 </div>
               </div>
