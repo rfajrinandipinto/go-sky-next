@@ -113,8 +113,8 @@ const TicketForm = () => {
           <Card.Body className="p-4">
             <Form onSubmit={handleSubmit}>
               <div className="row">
-                <div className="col-4">
-                  <Form.Group className="mb-3">
+                <div className="col-sm-12 col-md-4">
+                  <Form.Group className="mb-sm-3 mb-lg-0">
                     <FloatingLabel controlId="floatingInputDeparture" label="Dari" className="mb-3">
                       <Form.Select name="from" value={formData.from} required onChange={(e) => setFormData({ ...formData, from: e.target.value })} style={{ borderRadius: "0.5rem" }}>
                         {airport.map((item, key) => {
@@ -128,8 +128,8 @@ const TicketForm = () => {
                     </FloatingLabel>
                   </Form.Group>
                 </div>
-                <div className="col-4">
-                  <Form.Group className="mb-3">
+                <div className="col-sm-12 col-md-4">
+                  <Form.Group className="mb-sm-3 mb-lg-0">
                     <FloatingLabel controlId="floatingInputReturn" label="Ke" className="mb-3">
                       <Form.Select name="to" value={formData.to} required onChange={(e) => setFormData({ ...formData, to: e.target.value })}>
                         {airport.map((item, key) => {
@@ -143,8 +143,8 @@ const TicketForm = () => {
                     </FloatingLabel>
                   </Form.Group>
                 </div>
-                <div className="col-4 d-flex">
-                  <Form.Group className="mb-3 d-flex justify-content-around align-items-center w-100">
+                <div className="col-sm-12 col-md-4 d-flex">
+                  <Form.Group className="mb-3 mb-md-0 d-flex justify-content-around align-items-center w-100">
                     <Form.Check type="radio" label="One Way" name="category" value="ONE_WAY" onChange={(e) => setFormData({ ...formData, category: e.target.value })} defaultChecked />
 
                     <Form.Check type="radio" label="Round Trip" name="category" value="ROUND_TRIP" onChange={(e) => setFormData({ ...formData, category: e.target.value })} />
@@ -153,21 +153,21 @@ const TicketForm = () => {
               </div>
 
               <div className="row">
-                <div className="col-4">
-                  <Form.Group className="">
+                <div className="col-sm-12 col-md-4">
+                  <Form.Group className="mb-3 mb-md-0">
                     <FloatingLabel controlId="floatingInputDepartureTime" label="Pergi" className="" required>
                       <Form.Control type="date" name="departureTime" onChange={(e) => setFormData({ ...formData, departureTime: e.target.value })} value={formData.departureTime} min={isoDate} />
                     </FloatingLabel>
                   </Form.Group>
                 </div>
-                <div className="col-4">
-                  <Form.Group className="">
+                <div className="col-sm-12 col-md-4">
+                  <Form.Group className="mb-3 mb-md-0">
                     <FloatingLabel controlId="floatingInputReturnTime" label="Pulang" className="">
                       <Form.Control type="date" name="returnTime" disabled={formData.category == "ONE_WAY"} onChange={(e) => setFormData({ ...formData, returnTime: e.target.value })} value={formData.departureTime} min={isoDate} />
                     </FloatingLabel>
                   </Form.Group>
                 </div>
-                <div className="col-4">
+                <div className="col-sm-12 col-md-4 pb-sm-3 pb-md-0">
                   <Button variant="primary" type="submit" className="w-100 h-100 primary-background">
                     Submit
                   </Button>

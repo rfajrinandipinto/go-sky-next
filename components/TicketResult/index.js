@@ -52,9 +52,9 @@ const TicketResult = (props) => {
     <div className="TicketResultSeciton">
       <div className="container">
         <div className="row justify-content-center mt-5">
-          <div className="col-8">
+          <div className="col-12 col-md-10 col-xl-8">
             <Card className="mb-4 py-3">
-              <Card.Body className="d-flex justify-content-between">
+              <Card.Body className="d-flex justify-content-between d-flex-md-row">
                 <div>
                   <div className="fw-semibold fs-5">
                     {router.query.from} <i className="bi bi-arrow-right mx-2"></i> {router.query.to}{" "}
@@ -75,10 +75,10 @@ const TicketResult = (props) => {
                   <Card className="mb-4" key={key}>
                     <Card.Img variant="top" src={ticket.imageUrl} style={{ maxHeight: "100px", objectFit: "cover" }} />
                     <Card.Body className="row p-4 justify-content-between d-flex">
-                      <div className="col-2 text-center">
+                      <div className="col-12 col-lg-2 mb-3 text-center">
                         <Image src="/static/images/logo.svg" width={125} height={50} className="me-4" alt="..." />
                       </div>
-                      <div className="col-6 d-flex align-items-center flex-column">
+                      <div className="col-12 col-lg-6 mb-3 d-flex align-items-center flex-column">
                         <div className="d-flex align-items-center">
                           <div className="text-center me-5">
                             <p className="mb-1">{ticket.departureTime.match(/\d\d:\d\d/)}</p>
@@ -96,7 +96,7 @@ const TicketResult = (props) => {
                           </div>
                         </div>
                       </div>
-                      <div className="col-3 text-center">
+                      <div className="col-6 col-mx-auto-6 col-lg-3 text-center">
                         <div>
                           {" "}
                           <span className="fw-semibold">Rp {ticket.price.toLocaleString()}</span> / pax

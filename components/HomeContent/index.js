@@ -15,7 +15,7 @@ const HomeContent = ({ data }) => {
           <h3 className="fw-semibold primary-color">From Indonesia</h3>
         </div>
         <div className="row mt-4">
-          <div className="col-3">
+          <div className="col-md-6 col-lg-3 mb-3">
             <div className="card shadow featured-card d-flex justify-content-end flex-column p-3" style={{ backgroundImage: "linear-gradient(rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.3)), url('/static/images/bukittinggi.png')" }}>
               <p className="text-white fw-semibold fs-5 mb-2">PADANG</p>
               <Link href="/result?category=&from=&to=PADANG&departureTime=&returnTime=" onClick={() => setIsLoading(true)}>
@@ -25,7 +25,7 @@ const HomeContent = ({ data }) => {
               </Link>
             </div>
           </div>
-          <div className="col-3">
+          <div className="col-md-6 col-lg-3 mb-3">
             <div
               className="card shadow  featured-card d-flex justify-content-end flex-column p-3"
               style={{ backgroundImage: "linear-gradient(rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.3)), url('/static/images/bali.png')", backgroundPosition: "top" }}
@@ -38,7 +38,7 @@ const HomeContent = ({ data }) => {
               </Link>
             </div>
           </div>
-          <div className="col-3">
+          <div className="col-md-6 col-lg-3 mb-3">
             <div
               className="card shadow  featured-card d-flex justify-content-end flex-column p-3"
               style={{ backgroundImage: "linear-gradient(rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.3)), url('/static/images/jakarta.png')", backgroundPosition: "top" }}
@@ -51,7 +51,7 @@ const HomeContent = ({ data }) => {
               </Link>
             </div>
           </div>
-          <div className="col-3">
+          <div className="col-md-6 col-lg-3 mb-3">
             <div
               className="card shadow  featured-card d-flex justify-content-end flex-column p-3"
               style={{ backgroundImage: "linear-gradient(rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.3)), url('/static/images/jogjakarta.png')", backgroundPosition: "top" }}
@@ -69,7 +69,7 @@ const HomeContent = ({ data }) => {
           <h3 className="fw-semibold primary-color">Departure From</h3>
         </div>
         <div className="row mt-4 mb-5">
-          <div className="col-3">
+          <div className="col-md-6 col-xl-3 mb-3">
             <div className="card shadow departure-card overflow-hidden">
               <div
                 className="card-image d-flex justify-content-center align-items-center text-light fw-semibold "
@@ -107,7 +107,7 @@ const HomeContent = ({ data }) => {
               </div>
             </div>
           </div>
-          <div className="col-3">
+          <div className="col-md-6 col-xl-3 mb-3">
             <div className="card shadow departure-card overflow-hidden">
               <div className="card-image d-flex justify-content-center align-items-center text-light fw-semibold " style={{ backgroundImage: "linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)), url('/static/images/bali.png')" }}>
                 <p className="m-0 fs-5">BALI</p>
@@ -141,7 +141,7 @@ const HomeContent = ({ data }) => {
               </div>
             </div>
           </div>
-          <div className="col-3">
+          <div className="col-md-6 col-xl-3 mb-3">
             <div className="card shadow departure-card overflow-hidden">
               <div
                 className="card-image d-flex justify-content-center align-items-center text-light fw-semibold "
@@ -178,7 +178,7 @@ const HomeContent = ({ data }) => {
               </div>
             </div>
           </div>
-          <div className="col-3">
+          <div className="col-md-6 col-xl-3 mb-3">
             <div className="card shadow departure-card overflow-hidden">
               <div
                 className="card-image d-flex justify-content-center align-items-center text-light fw-semibold "

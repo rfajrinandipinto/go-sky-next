@@ -84,15 +84,15 @@ const Ticket = ({ data }) => {
         <p> Isi detail pemesanan booking anda</p>
 
         <h5 className="mb-3">Contact Details</h5>
-        <div className="row">
-          <div className="col-8">
+        <div className="row flex-reverse-md">
+          <div className="col-xl-8 col-12">
             <Form>
               <Card>
                 <Card.Body>
                   <Card.Title>contact details for E-Tciket</Card.Title>
 
                   <div className="row">
-                    <div className="col-6">
+                    <div className="col-12 col-md-6">
                       <Form.Group className="mb-3" controlId="formBasicEmail">
                         <Form.Label>Full Name</Form.Label>
                         <Form.Control type="text" placeholder="Enter Your Name" value={userData ? userData.name : ""} onChange={(e) => setUserData({ ...userData, phone: e.target.value })} required />
@@ -103,14 +103,14 @@ const Ticket = ({ data }) => {
                   </div>
 
                   <div className="row">
-                    <div className="col-6">
+                    <div className="col-12 col-md-6">
                       <Form.Group className="mb-3" controlId="formBasicEmail">
                         <Form.Label>Email address</Form.Label>
                         <Form.Control type="email" placeholder="Enter email" value={userData ? userData.email : ""} onChange={(e) => setUserData({ ...userData, phone: e.target.value })} required />
                         <Form.Text className="text-muted">e.g. email@gamil.com</Form.Text>
                       </Form.Group>
                     </div>
-                    <div className="col-6">
+                    <div className="col-12 col-md-6">
                       <Form.Group className="mb-3" controlId="formBasicPassword">
                         <Form.Label>Mobile Number</Form.Label>
                         <Form.Control type="number" placeholder="Your Mobile Number" value={userData ? userData.phone : ""} onChange={(e) => setUserData({ ...userData, phone: e.target.value })} required />
@@ -127,7 +127,7 @@ const Ticket = ({ data }) => {
               </div>
             </Form>
           </div>
-          <div className="col-4">
+          <div className="col-12 col-sm-8 col-xl-4 mb-4 ">
             <Card>
               <Card.Body>
                 <Card.Title className="d-flex justify-content-center align-items-center">

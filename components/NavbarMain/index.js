@@ -207,6 +207,7 @@ const NavbarMain = () => {
           return Promise.reject();
         }
       })
+      .then(() => setAlertContent("Otp Berhasil ,silahkan login"))
       .then(() => toggleShowAlert())
       .then(() => setIsLoading(false))
       .finally(() => handleOpenConfirm());
@@ -269,13 +270,13 @@ const NavbarMain = () => {
             {authenticated == false ? (
               <>
                 <Nav.Link href="#home" className="text-dark">
-                  <Button variant="primary" className="primary-background" style={{ width: "120px" }} onClick={handleOpenLogin}>
+                  <Button variant="primary" className="primary-background  " onClick={handleOpenLogin}>
                     <span>Login</span>
                   </Button>{" "}
                 </Nav.Link>
 
                 <Nav.Link href="#home" className="text-dark ">
-                  <Button variant="primary" className="primary-background" style={{ width: "120px" }} onClick={handleOpenRegister}>
+                  <Button variant="primary" className="primary-background" onClick={handleOpenRegister}>
                     Register
                   </Button>{" "}
                 </Nav.Link>
@@ -398,7 +399,6 @@ const NavbarMain = () => {
           <Toast.Header>
             <img src="holder.js/20x20?text=%20" className="rounded me-2" alt="" />
             <strong className="me-auto">GoSky</strong>
-            <small>11 mins ago</small>
           </Toast.Header>
           <Toast.Body>{alertContent}</Toast.Body>
         </Toast>

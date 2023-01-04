@@ -37,10 +37,16 @@ a {
 }
 
 .TicketFormSection .container .card {
-  top: 50%;
-  display: flex;
-  transform: translate(0%, -50%);
-  width: 80%;
+  margin-block: 25px;
+}
+
+@media only screen and (min-width: 1023px) {
+  .TicketFormSection .container .card {
+    top: 50%;
+    display: flex;
+    transform: translate(0%, -50%);
+    width: 80%;
+  }
 }
 
 nav .dropdown-menu[data-bs-popper] {
@@ -88,4 +94,33 @@ nav .dropdown-menu[data-bs-popper] {
 
 input.mail-list::placeholder {
   color: white;
+}
+
+.navbar-collapse button {
+  width: 300px;
+}
+
+@media only screen and (max-width: 1025px) {
+  .col-mx-auto-6 {
+    margin-inline: auto;
+  }
+
+  .flex-reverse-md {
+    flex-direction: column-reverse;
+  }
+}
+
+@media only screen and (max-width: 590px) {
+  .d-flex-md-row {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+  }
+}
+
+@media only screen and (min-width: 1023px) {
+  .navbar-collapse button {
+    width: 120px;
+  }
 }

@@ -379,10 +379,10 @@ const Profile = ({ data, transactionData, wishlistData, notificationsData, pageC
                       return (
                         <div className="card mb-3" key={key}>
                           <div className="card-body row">
-                            <div className="card-title d-flex justify-content-between col-10">
+                            <div className="card-title d-flex justify-content-between col-lg-10 col-12">
                               <p className="mb-0 fw-semibold">{data.message} </p>
                             </div>
-                            <div className="card-title d-flex flex-column justify-content-between justify-content-between col-2">
+                            <div className="card-title d-flex flex-column justify-content-between justify-content-between col-lg-2 col-5 mx-auto ">
                               {data.isRead == false ? <span className="badge bg-secondary mb-3 bg-danger">Unread</span> : <span className="badge bg-secondary mb-3 bg-success">read</span>}
 
                               <button type="button" className="btn btn-primary " onClick={() => handleRead(data.id)}>
@@ -407,7 +407,7 @@ const Profile = ({ data, transactionData, wishlistData, notificationsData, pageC
       <NavbarMain></NavbarMain>
       <div className="container mt-5">
         <div className="row justify-content-center">
-          <div className="col-3">
+          <div className="col-lg-4 col-12">
             <Card>
               <Card.Body>
                 <div className="d-flex align-items-center">
@@ -450,7 +450,7 @@ const Profile = ({ data, transactionData, wishlistData, notificationsData, pageC
               </Card.Body>
             </Card>
           </div>
-          <div className="col-7">{renderMainContent(mainContent)}</div>
+          <div className="col-lg-8 col-12 mt-3">{renderMainContent(mainContent)}</div>
         </div>
       </div>
       <Modal show={isLoading} centered className="loading-modal">
@@ -467,7 +467,6 @@ const Profile = ({ data, transactionData, wishlistData, notificationsData, pageC
           <Toast.Header>
             <img src="holder.js/20x20?text=%20" className="rounded me-2" alt="" />
             <strong className="me-auto">GoSky</strong>
-            <small>11 mins ago</small>
           </Toast.Header>
           <Toast.Body>{alertContent}</Toast.Body>
         </Toast>
