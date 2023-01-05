@@ -163,7 +163,7 @@ const TicketForm = () => {
                 <div className="col-sm-12 col-md-4">
                   <Form.Group className="mb-3 mb-md-0">
                     <FloatingLabel controlId="floatingInputReturnTime" label="Pulang" className="">
-                      <Form.Control type="date" name="returnTime" disabled={formData.category == "ONE_WAY"} onChange={(e) => setFormData({ ...formData, returnTime: e.target.value })} value={formData.departureTime} min={isoDate} />
+                      <Form.Control type="date" name="returnTime" disabled={formData.category == "ONE_WAY"} onChange={(e) => setFormData({ ...formData, returnTime: e.target.value })} value={formData.returnTime} min={isoDate} />
                     </FloatingLabel>
                   </Form.Group>
                 </div>
